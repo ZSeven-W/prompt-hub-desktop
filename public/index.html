@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptHub Local</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <h2>PromptHub</h2>
+      <button class="btn-icon" id="btn-new" title="New Prompt">+</button>
+    </div>
+    <input type="text" id="search" placeholder="🔍 Search prompts..." class="search-bar">
+
+    <div class="sidebar-section">
+      <div class="section-label">Folders</div>
+      <ul id="folder-list" class="nav-list"></ul>
+      <div class="add-folder-row">
+        <input type="text" id="new-folder-input" placeholder="New folder...">
+        <button class="btn-icon small" id="btn-add-folder">+</button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="section-label">Tags</div>
+      <ul id="tag-list" class="nav-list tag-cloud"></ul>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="main">
+    <!-- Prompt List View -->
+    <div id="view-list" class="view">
+      <div class="view-header">
+        <h3 id="list-title">All Prompts</h3>
+        <button class="btn primary" id="btn-new-main">+ New Prompt</button>
+      </div>
+      <div id="prompt-list" class="prompt-grid"></div>
+    </div>
+
+    <!-- Prompt Editor View -->
+    <div id="view-editor" class="view hidden">
+      <div class="editor-header">
+        <button class="btn ghost" id="btn-back">← Back</button>
+        <div class="editor-actions">
+          <button class="btn" id="btn-save">💾 Save</button>
+          <button class="btn primary" id="btn-copy">📋 Copy</button>
+          <button class="btn danger" id="btn-delete">🗑 Delete</button>
+        </div>
+      </div>
+
+      <div class="editor-body">
+        <div class="form-row">
+          <input type="text" id="prompt-title" placeholder="Prompt title..." class="input-title">
+        </div>
+        <div class="form-row">
+          <input type="text" id="prompt-description" placeholder="Short description..." class="input-desc">
+        </div>
+        <div class="form-row inline">
+          <label>Folder:</label>
+          <select id="prompt-folder"></select>
+          <label>Tags:</label>
+          <div id="tag-selector" class="tag-selector"></div>
+          <input type="text" id="new-tag-input" placeholder="+ Add tag" class="tag-input">
+        </div>
+
+        <div class="editor-split">
+          <div class="editor-pane">
+            <div class="pane-header">
+              <span>Prompt Content</span>
+              <span id="variable-count" class="badge"></span>
+            </div>
+            <textarea id="prompt-content" placeholder="Write your prompt here... Use {{variable}} for placeholders."></textarea>
+          </div>
+          <div class="editor-pane" id="preview-pane">
+            <div class="pane-header">
+              <span>Variables</span>
+            </div>
+            <div id="variable-inputs" class="variable-inputs"></div>
+            <div class="pane-header" style="margin-top:12px">
+              <span>Preview</span>
+            </div>
+            <pre id="preview-content" class="preview-content"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Version History View -->
+    <div id="view-versions" class="view hidden">
+      <div class="view-header">
+        <button class="btn ghost" id="btn-back-versions">← Back</button>
+        <h3>Version History</h3>
+      </div>
+      <div id="version-list" class="version-list"></div>
+    </div>
+
+    <!-- Import/Export View -->
+    <div id="view-import-export" class="view hidden">
+      <div class="view-header">
+        <button class="btn ghost" id="btn-back-ie">← Back</button>
+        <h3>Import / Export</h3>
+      </div>
+      <div class="ie-container">
+        <div class="ie-section">
+          <h4>Export</h4>
+          <p>Download all your prompts as a JSON file.</p>
+          <button class="btn primary" id="btn-export">📥 Export All Prompts</button>
+        </div>
+        <div class="ie-section">
+          <h4>Import</h4>
+          <p>Import prompts from a JSON file.</p>
+          <input type="file" id="import-file" accept=".json">
+          <button class="btn" id="btn-import">📤 Import</button>
+          <div id="import-status"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav tabs -->
+    <nav id="bottom-nav">
+      <button class="nav-tab active" data-view="list">📋 Prompts</button>
+      <button class="nav-tab" data-view="import-export">🔄 Import/Export</button>
+    </nav>
+  </main>
+</div>
+
+<!-- Copy Modal -->
+<div id="copy-modal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Copied to clipboard!</h3>
+    <pre id="copy-preview"></pre>
+    <button class="btn primary" id="copy-modal-close">OK</button>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div id="confirm-modal" class="modal hidden">
+  <div class="modal-content">
+    <h3 id="confirm-title">Confirm</h3>
+    <p id="confirm-message"></p>
+    <div class="modal-actions">
+      <button class="btn ghost" id="confirm-cancel">Cancel</button>
+      <button class="btn danger" id="confirm-ok">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
